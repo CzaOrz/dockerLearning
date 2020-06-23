@@ -1,0 +1,106 @@
+支持对象，对象键值对使用冒号结构表示 key: value，冒号后面要加一个空格
+key:
+    child-key1: value1
+    child-key2: value2
+对于复杂的对象格式，可以使用问号加一个空格表示key，在配合冒号加一个空格表示value
+?
+    - complex-key1
+    - complex-key2
+:
+    - complex-value1
+    - complex-value2
+
+支持数组，以 - 开头表示构成一个数组
+    - A
+    - B
+
+复杂案例，表示companies属性为一个数组，其中每个元素为对象，包含id、name、price等
+companies:
+    -
+        id: 1
+        name: test1
+        price: 1
+    -
+        id: 2
+        name: test2
+        price: 1
+
+即：
+languages:
+  - Ruby
+  - Perl
+  - Python
+websites:
+  YAML: yaml.org
+  Ruby: ruby-lang.org
+  Python: python.org
+  Perl: use.perl.org
+等价于：
+{
+  languages: [ 'Ruby', 'Perl', 'Python'],
+  websites: {
+    YAML: 'yaml.org',
+    Ruby: 'ruby-lang.org',
+    Python: 'python.org',
+    Perl: 'use.perl.org'
+  }
+}
+
+
+纯量，是最基本的，不可再分的值，
+包括字符串、布尔值、整数、浮点数、Null、时间、日期等
+boolean:
+    - TRUE  #true,True都可以
+    - FALSE  #false，False都可以
+float:
+    - 3.14
+    - 6.8523015e+5  #可以使用科学计数法
+int:
+    - 123
+    - 0b1010_0111_0100_1010_1110    #二进制表示
+null:
+    nodeName: 'node'
+    parent: ~  #使用~表示null
+string:
+    - 哈哈
+    - 'Hello world'  #可以使用双引号或者单引号包裹特殊字符
+    - newline
+      newline2    #字符串可以拆成多行，每一行会被转化成一个空格
+date:
+    - 2018-02-17    #日期必须使用ISO 8601格式，即yyyy-MM-dd
+datetime:
+    -  2018-02-17T15:02:31+08:00    #时间使用ISO 8601格式，时间和日期之间使用T连接，最后使用+代表时区
+
+
+引用
+defaults: &defaults
+  adapter:  postgres
+  host:     localhost
+development:
+  database: myapp_development
+  <<: *defaults
+test:
+  database: myapp_test
+  <<: *defaults
+相当于
+defaults:
+  adapter:  postgres
+  host:     localhost
+development:
+  database: myapp_development
+  adapter:  postgres
+  host:     localhost
+test:
+  database: myapp_test
+  adapter:  postgres
+  host:     localhost
+& 用来建立锚点（defaults），<< 表示合并到当前数据，* 用来引用锚点。
+
+另一个例子:
+- &showell Steve
+- Clark
+- Brian
+- Oren
+- *showell
+转为 JavaScript 代码如下:
+[ 'Steve', 'Clark', 'Brian', 'Oren', 'Steve' ]
