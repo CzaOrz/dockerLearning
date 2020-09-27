@@ -1,0 +1,14 @@
+kubernetes对象，是持久化的实体，在k8s系统中，使用这些对象来表示整个集群的状态
+kubernetes对象是k8s集群的期望状态
+
+每个kubernetes对象包含两个嵌套的对象字段，负责管理对象的配置：spec和status
+spec：
+    必须。描述了对象的期望状态，即对象所具有的特征
+status：
+    描述了对象的实际状态，由k8s系统提供和更新，任意时刻，status都会往spec所期望的状态靠拢直至匹配
+
+namespace
+    表示虚拟集群
+
+deployment
+    表示运行在集群中应用

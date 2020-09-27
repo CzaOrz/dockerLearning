@@ -1,0 +1,38 @@
+必须字段：
+apiVersion：创建对象时使用的k8s-api版本
+kind：创建对象的类型
+metadata：帮助识别对象唯一性的数据，包括一个name字符串、uid、和可选的namespace
+    labels：标签是附加到kubernetes对象上的键值对，旨在用于指定对用户有意义且相关的对象的标识属性
+            但不直接对核心系统有语义含义。常用于高效查询与监视，即标签索引与反向索引
+        意义：使得用户能够以松散耦合的方式，将自己的组织结构映射到系统对象上
+    annotations：
+        注解
+spec：
+    nodeSelector：
+        使用：kubectl get pods -l environment=production,tier=frontend
+    selector：
+
+
+-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: docker-images
+spec:
+    selector:
+        matchLabels:
+            app: docker
+    replicas: 3
+    template:
+        metadata:
+            labels:
+            app: docker
+        spec:
+            containers:
+            - name: docker
+              image: docker:v1
+              ports:
+              - containerPort: 80
+-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+kubectl apply -f deployment.yaml --record
+-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-

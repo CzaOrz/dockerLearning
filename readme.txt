@@ -77,18 +77,38 @@ docker-compose –f docker-compose.yml –d up
 
 
 ##### k8s
-kubectl get pods
+kubectl run nginx --image=nginx
+
+kubectl create -f <spec.yaml>  # 用于创建yaml文件
+kubectl apply -f <spec.yaml>  # 用于更新yaml文件
+kubectl delete -n default pod consumer-server-d-865784b454-dtgrs
+
+kubectl create namespace mem-example  # 创建命名空间
+
+kubectl scale -n default deployment consumer-server-d --replicas=0  # 修改规模，也可以只从yaml文件中进行修改
+
+
+
+### 查看资源信息指令
+kubectl cluster-info
+kubectl get pods --all-namespaces
 kubectl get nodes
-kubectl create -f kubernetes-dashboard.yaml
+kubectl get services
+kubectl get namespace
+kubectl get apiservices
+kubectl get deployment my-dep
+kubectl describe nodes
 
+### 创建资源指令
+kubectl create namespace test-example
+kubectl create -f dev.yaml
 
+### 删除资源指令
+kubectl delete -f dev.yaml
+kubectl delete -n default pod web-server
 
-
-
-
-
-
-
-
+### 覆盖活动配置
+kubectl replace -f dev.yaml
+kubectl scale -n default deployment consumer-server-d --replicas=3
 
 
