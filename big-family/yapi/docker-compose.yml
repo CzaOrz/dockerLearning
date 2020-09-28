@@ -1,0 +1,30 @@
+version: "2.1"
+services:
+  mongo:
+    image: mongo
+    container_name: mongo
+    privileged: true
+    ports:
+      - 27017:27017
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: root
+#      MONGO_INITDB_ROOT_PASSWORD: root
+  yapi:
+    image: registry.cn-hangzhou.aliyuncs.com/anoy/yapi
+    container_name: yapi
+    privileged: true
+    depends_on:
+      - mongo
+    entrypoint: ["npm"]
+    ports:
+      - 3000:3000
+    environment:
+      LOG_PATH: /tmp/yapi.log
+      HOME: /home
+      DB_SERVER: mongo
+      DB_PORT: 27017
+      PORT: 3000
+      DB_NAME: yapi
+      ADMIN_EMAIL: 972542655@qq.com
+    working_dir: /api/vendors
+    command: server/app.js
