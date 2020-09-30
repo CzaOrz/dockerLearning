@@ -5,6 +5,7 @@ docker run --name mongo -p 27017:27017 -v /data/db:/data/db -e MONGO_INITDB_ROOT
 
 ### 安装yapi
 docker pull registry.cn-hangzhou.aliyuncs.com/anoy/yapi
-docker run --restart always -v /data/db:/data/db -d --name mongo mongo
+docker run -d --restart=always  --name mongo -p 27017:27017 -v C:/data/db:/data/db  mongo
+docker run -d --restart=always  --name mongo -p 27017:27017  mongo
 docker run -it --rm --link mongo:mongo --entrypoint npm --workdir /api/vendors registry.cn-hangzhou.aliyuncs.com/anoy/yapi run install-server
 docker run -d  --restart=always --name yapi  --link mongo:mongo --workdir /api/vendors  -p 3000:3000  registry.cn-hangzhou.aliyuncs.com/anoy/yapi  server/app.js
